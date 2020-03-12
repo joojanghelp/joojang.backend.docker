@@ -52,4 +52,9 @@ RUN apt-get -y install mariadb-server mariadb-client
 RUN sed -i 's/127.0.0.1/*/g' /etc/mysql/my.cnf
 RUN sed -i -e '/\[mysqld\]/ a lower_case_table_names = 1' /etc/mysql/my.cnf
 
+RUN mv /etc/mysql/mariadb.cnf /etc/mysql/bak_mariadb.cnf
+COPY ./config/mariadb.cnf /etc/mysql/mariadb.cnf
+
+# RUN /root/mysql/mysql_init.sh
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
