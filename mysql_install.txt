@@ -1,0 +1,15 @@
+
+
+
+sed -i 's/127.0.0.1/*/g' /etc/mysql/my.cnf
+sed -i -e '/\[mysqld\]/ a lower_case_table_names = 1' /etc/mysql/my.cnf
+
+/usr/bin/mysqld_safe --datadir=/var/lib/mysql &
+
+
+mysql -uroot mysql -e "create user 'dbdev'@'localhost' identified by '1111'"
+mysql -uroot mysql -e "create user 'dbdev'@'%' identified by '1111'"
+
+mysql -uroot mysql -e "grant all privileges on *.* to 'dbdev'@'localhost'"
+mysql -uroot mysql -e "grant all privileges on *.* to 'dbdev'@'%'"
+mysql -uroot mysql -e "flush privileges"

@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+    mariadb:
+        build:
+            context: './database'
+        environment:
+            TZ: "Asia/Seoul"
+            MYSQL_DATABASE: myDb
+            MYSQL_USER: user
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test
+        container_name: mariadb
+        ports:
+            - "23306:3306"
+        tty: true
+        volumes:
+            - joojang_mariadb:/var/lib/mysql
+            - ./data_volume:/data
+        restart: always
+        command:
+            - start.sh
+            - tail -f /dev/null
+        networks:
+            aptnetworks:
+                ipv4_address: 172.20.0.7
+
+networks:
+  aptnetworks:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
+volumes:
+    joojang_mariadb:
